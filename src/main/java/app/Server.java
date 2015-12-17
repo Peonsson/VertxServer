@@ -1,4 +1,4 @@
-/**
+package app; /**
  * Created by Peonsson on 17/12/15.
  */
 
@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.Date;
 
 public class Server extends AbstractVerticle {
+    int counter = 0;
 
     @Override
     public void start(Future<Void> future) throws Exception {
@@ -35,16 +36,19 @@ public class Server extends AbstractVerticle {
         router.route().handler(StaticHandler.create());
 
         // Start the web server and tell it to use the router to handle requests.
-        vertx.createHttpServer().requestHandler(router::accept).listen(8080);
+        vertx.createHttpServer().requestHandler(router::accept).listen(4000);
 
         EventBus eb = vertx.eventBus();
 
         // Register to listen for messages coming IN to the server
         eb.consumer("chat.to.server").handler(message -> {
+
+            System.out.println("message" + counter++ + ": " + message.body().toString());
+
             // Create a timestamp string
             String timestamp = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM).format(Date.from(Instant.now()));
             // Send the message back out to all clients with the timestamp prepended.
-            eb.publish("chat.to.client", timestamp + ": " + message.body());
+            eb.publish("chat.to.client", timestamp + ": " + message.body().toString());
         });
     }
 }
