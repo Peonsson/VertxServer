@@ -3,6 +3,7 @@
  */
 
 import io.vertx.core.*;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerRequest;
@@ -18,21 +19,16 @@ public class Server extends AbstractVerticle {
         // Create server
         server = vertx.createHttpServer();
 
-        server.requestHandler(new Handler<HttpServerRequest>() {
-            @Override
-            public void handle(HttpServerRequest request) {
-                System.out.println("incoming request!");
+        server.requestHandler(request -> {
+            System.out.println("incoming request!");
 
-                if (request.method() == HttpMethod.GET) {
-                    // Send back a response
-                    HttpServerResponse response = request.response();
-                    response.setStatusCode(200);
-                    response.headers()
-                            .add("Content-Length", String.valueOf(57))
-                            .add("Content-Type", "text/html");
-
-                    response.end("Vert.x is alive!");
-                }
+            if (request.method() == HttpMethod.GET) {
+                // Send back a response
+                HttpServerResponse response = request.response();
+                // This should probably be changed
+                response.setChunked(true);
+                response.write("hello world!");
+                response.end();
             }
         });
 
