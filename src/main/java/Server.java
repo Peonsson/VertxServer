@@ -5,7 +5,6 @@
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.sockjs.BridgeOptions;
@@ -47,16 +46,5 @@ public class Server extends AbstractVerticle {
             // Send the message back out to all clients with the timestamp prepended.
             eb.publish("chat.to.client", timestamp + ": " + message.body());
         });
-
-        server.websocketHandler(websocket -> {
-            System.out.println("Connected!");
-        });
-
-        server.listen(4000);
-
-//                server.websocketHandler(ws -> ws.handler(ws::writeBinaryMessage))
-//                .requestHandler(req -> req
-//                .response().write("HELLO WORLD!"))
-//                .listen(4000);
     }
 }
