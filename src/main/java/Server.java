@@ -17,14 +17,9 @@ import java.time.Instant;
 import java.util.Date;
 
 public class Server extends AbstractVerticle {
-    private EventBus eb = null;
 
     @Override
     public void start(Future<Void> future) throws Exception {
-
-
-        eb = getVertx().eventBus();
-        HttpServer server = vertx.createHttpServer();
 
         Router router = Router.router(getVertx());
 
