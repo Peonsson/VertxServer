@@ -1,5 +1,6 @@
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpClient;
 
 /**
@@ -13,13 +14,18 @@ public class Client extends AbstractVerticle {
 
         HttpClient client = vertx.createHttpClient();
 
-        client.getNow(4000, "localhost", "/",response -> {
 
-            response.bodyHandler(totalBuffer -> {
-                // Now all the body has been read
-                System.out.println("Total response body length is " + totalBuffer.length());
-                System.out.println("data is: " + totalBuffer.toString());
+
+        client.websocket(4000, "localhost", "/", websocket -> {
+            websocket.handler(data -> {
+                System.out.println("Received data: " + data.toString("ISO-8859-1"));
+//                client.close();
             });
+            websocket.writeBinaryMessage(Buffer.buffer("HELLO WRRROLD"));
+            websocket.writeBinaryMessage(Buffer.buffer("HELLO WRRROLD"));
+            websocket.writeBinaryMessage(Buffer.buffer("HELLO WRRROLD"));
+            websocket.writeBinaryMessage(Buffer.buffer("HELLO WRRROLD"));
+
         });
     }
 }

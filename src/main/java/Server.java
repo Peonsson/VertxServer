@@ -5,46 +5,26 @@
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.http.HttpServerResponse;
 
 public class Server extends AbstractVerticle {
-    private HttpServer server = null;
     private EventBus eb = null;
 
     @Override
     public void start(Future<Void> future) throws Exception {
-        // Create server
-        server = vertx.createHttpServer();
 
-        // Create eventbus
-        eb = vertx.eventBus();
+        eb = getVertx().eventBus();
+        HttpServer server = vertx.createHttpServer();
 
-        server.requestHandler(request -> {
-            System.out.println("incoming request!");
-
-            if (request.method() == HttpMethod.GET) {
-                // Send back a response
-                HttpServerResponse response = request.response();
-                // This should probably be changed
-                response.setChunked(true);
-                response.write("hello world!");
-                response.end();
-            }
+        server.websocketHandler(websocket -> {
+            System.out.println("Connected!");
         });
 
-        server.listen(4000, res -> {
-            if (res.succeeded()) {
-                System.out.println("Server is now listening!");
-            } else {
-                System.out.println("Failed to bind!");
-            }
-        });
-    }
+        server.listen(4000);
 
-    @Override
-    public void stop(Future<Void> future) throws Exception {
-
+//                server.websocketHandler(ws -> ws.handler(ws::writeBinaryMessage))
+//                .requestHandler(req -> req
+//                .response().write("HELLO WORLD!"))
+//                .listen(4000);
     }
 }

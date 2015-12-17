@@ -8,5 +8,8 @@ public class Main {
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(new Server());
         vertx.deployVerticle(new Client());
+        vertx.deployVerticle(new Client());
+        vertx.deployVerticle(new Client());
+        vertx.deployVerticle(new Client());
     }
 }
