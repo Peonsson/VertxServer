@@ -10,6 +10,10 @@ import io.vertx.core.net.NetServer;
 
 public class Server implements Verticle {
 
+    public Server() {
+        //TODO call start here
+    }
+
     @Override
     public Vertx getVertx() {
         return null;
@@ -23,10 +27,9 @@ public class Server implements Verticle {
     @Override
     public void start(Future<Void> future) throws Exception {
 
-        Vertx vertx = Vertx.vertx();
         NetServer server = vertx.createNetServer();
 
-        //If 0 is used as the listening port, the server will find an unused random port to listen on.
+        // If 0 is used as the listening port, the server will find an unused random port to listen on.
         server.listen(0, "localhost", res -> {
             if (res.succeeded()) {
                 System.out.println("Server is now listening on actual port: " + server.actualPort());
