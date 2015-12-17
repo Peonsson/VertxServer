@@ -12,6 +12,7 @@ public class Server implements Verticle {
 
     public Server() {
         //TODO call start here
+        //start();
     }
 
     @Override
