@@ -23,7 +23,13 @@ public class Server extends AbstractVerticle {
             }
         });
 
-        server.listen(4000);
+        server.listen(4000, res -> {
+            if (res.succeeded()) {
+                System.out.println("Server is now listening!");
+            } else {
+                System.out.println("Failed to bind!");
+            }
+        });
     }
 
     @Override
