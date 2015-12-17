@@ -11,7 +11,7 @@ import io.vertx.core.http.HttpServerResponse;
 
 public class Server extends AbstractVerticle {
     private HttpServer server = null;
-    EventBus eb = null;
+    private EventBus eb = null;
 
     @Override
     public void start(Future<Void> future) throws Exception {
