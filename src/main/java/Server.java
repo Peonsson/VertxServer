@@ -28,7 +28,7 @@ public class Server implements Verticle {
     @Override
     public void start(Future<Void> future) throws Exception {
 
-        NetServer server = vertx.createNetServer();
+        NetServer server = getVertx().createNetServer();
 
         // If 0 is used as the listening port, the server will find an unused random port to listen on.
         server.listen(0, "localhost", res -> {
