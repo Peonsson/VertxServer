@@ -25,6 +25,8 @@ public class Server implements Verticle {
 
         Vertx vertx = Vertx.vertx();
         NetServer server = vertx.createNetServer();
+
+        //If 0 is used as the listening port, the server will find an unused random port to listen on.
         server.listen(0, "localhost", res -> {
             if (res.succeeded()) {
                 System.out.println("Server is now listening on actual port: " + server.actualPort());
