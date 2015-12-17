@@ -3,25 +3,27 @@
  */
 
 import io.vertx.core.*;
+import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetServerOptions;
 
 public class Server extends AbstractVerticle {
+    private HttpServer server = null;
 
     @Override
     public void start(Future<Void> future) throws Exception {
         // Create server
-        NetServer server = vertx.createNetServer();
+        server = vertx.createHttpServer();
 
-        // If 0 is used as the listening port, the server will find an unused random port to listen on.
-        server.listen(4000, "localhost", res -> {
-            if (res.succeeded()) {
-                System.out.println("Server is now listening on actual port: " + server.actualPort());
-            } else {
-                System.out.println("Failed to bind!");
+        server.requestHandler(new Handler<HttpServerRequest>() {
+            @Override
+            public void handle(HttpServerRequest request) {
+                System.out.println("incoming request!");
             }
         });
 
+        server.listen(4000);
     }
 
     @Override
