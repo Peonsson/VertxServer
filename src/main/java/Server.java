@@ -2,22 +2,24 @@
  * Created by Peonsson on 17/12/15.
  */
 
-import io.vertx.core.*;
-import io.vertx.core.buffer.Buffer;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
+import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.net.NetServer;
-import io.vertx.core.net.NetServerOptions;
 
 public class Server extends AbstractVerticle {
     private HttpServer server = null;
+    EventBus eb = null;
 
     @Override
     public void start(Future<Void> future) throws Exception {
         // Create server
         server = vertx.createHttpServer();
+
+        // Create eventbus
+        eb = vertx.eventBus();
 
         server.requestHandler(request -> {
             System.out.println("incoming request!");
