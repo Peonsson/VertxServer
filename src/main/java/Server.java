@@ -45,7 +45,7 @@ public class Server extends AbstractVerticle {
             // Create a timestamp string
             String timestamp = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM).format(Date.from(Instant.now()));
             // Send the message back out to all clients with the timestamp prepended.
-            eb.publish("chat.to.client", timestamp + ": " + message.body());
+            eb.publish("chat.to.client", message.body().toString());
         });
     }
 }
